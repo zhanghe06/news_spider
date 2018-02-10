@@ -6,3 +6,7 @@
 
 logs/
 !logs/index.html
+
+.coverage
+htmlcov/
+.coveralls.yml

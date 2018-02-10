@@ -1,0 +1,18 @@
+sudo: no
+dist: trusty
+language: python
+python:
+  - "2.7"
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+  - pip install pyyaml
+# command to run tests
+script:
+  - cd tests
+  # Copy the coveragerc down so coverage.py can find it.
+  - coverage run --source='.' test_finger.py
+  - coverage report
+after_success:
+  - coveralls

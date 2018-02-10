@@ -1,5 +1,8 @@
 ## 项目说明
 
+[![Build Status](https://travis-ci.org/zhanghe06/news_spider.svg?branch=master)](https://travis-ci.org/zhanghe06/news_spider)
+[![Coverage Status](https://coveralls.io/repos/github/zhanghe06/news_spider/badge.svg?branch=master)](https://coveralls.io/github/zhanghe06/news_spider?branch=master)
+
 项目演示
 
 本项目依赖第三方验证码识别服务, 注册地址: http://www.ruokuai.com/
