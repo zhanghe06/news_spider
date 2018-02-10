@@ -1,9 +1,9 @@
-## 项目说明
+## 新闻抓取
 
 [![Build Status](https://travis-ci.org/zhanghe06/news_spider.svg?branch=master)](https://travis-ci.org/zhanghe06/news_spider)
 [![Coverage Status](https://coveralls.io/repos/github/zhanghe06/news_spider/badge.svg?branch=master)](https://coveralls.io/github/zhanghe06/news_spider?branch=master)
 
-项目演示
+### 项目演示
 
 本项目依赖第三方验证码识别服务, 注册地址: http://www.ruokuai.com/
 
@@ -30,7 +30,7 @@ scrapy crawl weixin                 # 开启微信爬虫
 - env_develop.sh   # 开发环境
 - env_product.sh   # 生产环境
 
-## 项目创建过程记录
+### 项目创建过程记录
 
 项目依赖明细
 ```bash
@@ -81,9 +81,10 @@ scrapy genspider weixin mp.weixin.qq.com
 scrapy crawl weixin
 ```
 
-## 验证码识别
+### 验证码识别
 
 http://www.ruokuai.com/
+
 http://wiki.ruokuai.com/
 
 价格类型:
