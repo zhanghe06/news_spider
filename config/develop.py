@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # requests 超时设置
 REQUESTS_TIME_OUT = (30, 30)
 
-HOST_IP = '192.168.4.1'
+HOST_IP = 'localhost'
 
 # 数据库 MySQL
 DB_MYSQL = {
@@ -35,7 +35,7 @@ SQLALCHEMY_POOL_SIZE = 5  # 默认 pool_size=5
 
 # 缓存，队列
 REDIS = {
-    'host': 'localhost',
+    'host': HOST_IP,
     'port': 6379,
     # 'password': '123456'  # redis-cli AUTH 123456
 }

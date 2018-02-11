@@ -48,7 +48,7 @@ def gen_models():
 def gen_items():
     """
     创建 items
-    $ python gen.py gen_items > items.py
+    $ python gen.py gen_items
     字段规则： 去除自增主键，非自增是需要的。
     """
     from models import news
