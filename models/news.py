@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Column, DateTime, Index, Integer, String, Text, text
+from sqlalchemy import Column, DateTime, Index, Integer, String, text
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -43,7 +43,7 @@ class FetchResult(Base):
     article_author_name = Column(String(100), server_default=text("''"))
     article_tags = Column(String(100), server_default=text("''"))
     article_abstract = Column(String(500), server_default=text("''"))
-    article_content = Column(Text)
+    article_content = Column(String)
     article_pub_time = Column(DateTime)
     create_time = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
     update_time = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))

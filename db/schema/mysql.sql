@@ -48,7 +48,7 @@ CREATE TABLE `fetch_result` (
   `article_author_name` VARCHAR(100) DEFAULT '' COMMENT '文章作者名称（对应follow_name）',
   `article_tags` VARCHAR(100) DEFAULT '' COMMENT '文章标签（半角逗号分隔）',
   `article_abstract` VARCHAR(500) DEFAULT '' COMMENT '文章摘要',
-  `article_content` TEXT COMMENT '文章内容',
+  `article_content` MEDIUMTEXT COMMENT '文章内容',
   `article_pub_time` DATETIME COMMENT '文章发布时间',
   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -56,3 +56,5 @@ CREATE TABLE `fetch_result` (
   KEY idx_task_id (`task_id`),
   UNIQUE KEY idx_platform_article_id (`platform_id`, `article_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='抓取结果表';
+
+ALTER TABLE `fetch_result` MODIFY `article_content` MEDIUMTEXT COMMENT '文章内容';
