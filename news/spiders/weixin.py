@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import scrapy
 
 
 import scrapy
@@ -57,7 +56,7 @@ class WeixinSpider(scrapy.Spider):
         task_id = pop_task(self.name)
 
         if not task_id:
-            print('task is empty')
+            print('%s task is empty' % self.name)
             return
 
         task_item = get_item(FetchTask, task_id)
@@ -106,8 +105,8 @@ class WeixinSpider(scrapy.Spider):
         :param response:
         :return:
         """
-        wechat_body = response.body_as_unicode()
-        js_body = parse_weixin_js_body(wechat_body)
+        article_list_body = response.body_as_unicode()
+        js_body = parse_weixin_js_body(article_list_body)
         if not js_body:
             return
         pj = ParseJsWc(js_body=js_body)

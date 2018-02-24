@@ -8,6 +8,7 @@
 @time: 2018-02-10 17:16
 """
 
+import sys
 
 from models.news import FetchTask, FetchResult
 from apps.client_db import get_group, get_all
@@ -41,9 +42,42 @@ def job_put_tasks(spider_name):
         c += 1
         if c % 100 == 0:
             print(c)
-    print('put tasks count: %s' % c)
+    print('put %s tasks count: %s' % (spider_name, c))
     return True
 
 
+def usage():
+    contents = [
+        'Example:',
+        '\tpython job_put_tasks.py wx  # 微信',
+        '\tpython job_put_tasks.py wb  # 微博',
+        '\tpython job_put_tasks.py tt  # 头条',
+    ]
+    print('\n'.join(contents))
+
+
+def run():
+    """
+    入口
+    """
+    print sys.argv
+    spider_name_maps = {
+        'wx': 'weixin',
+        'wb': 'weibo',
+        'tt': 'toutiao',
+    }
+    try:
+        if len(sys.argv) > 1:
+            spider_name = spider_name_maps.get(sys.argv[1])
+            if not spider_name:
+                raise Exception('参数错误')
+            job_put_tasks(spider_name)
+        else:
+            raise Exception('缺失参数')
+    except Exception as e:
+        print(e.message)
+        usage()
+
+
 if __name__ == '__main__':
-    job_put_tasks('weixin')
+    run()

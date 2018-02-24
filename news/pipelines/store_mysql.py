@@ -9,9 +9,6 @@
 from models.news import FetchResult
 from news.items import FetchResultItem
 from apps.client_db import db_session_mysql
-from tools.duplicate import is_dup_detail, add_dup_detail
-
-from scrapy.exceptions import DropItem
 
 
 class StoreMysqlPipeline(object):
@@ -20,8 +17,6 @@ class StoreMysqlPipeline(object):
     """
 
     def process_item(self, item, spider):
-
-        spider_name = spider.name
         session = db_session_mysql()
         try:
             if isinstance(item, FetchResultItem):

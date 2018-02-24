@@ -71,7 +71,7 @@ def add_job():
     scheduler.add_job(
         job_sogou_cookies,
         'interval',
-        kwargs={'spider_name': 'wechat'},
+        kwargs={'spider_name': 'weixin'},
         minutes=5,
         id='job_sogou_cookies',
         replace_existing=True
@@ -81,7 +81,7 @@ def add_job():
     scheduler.add_job(
         job_weixin_cookies,
         'interval',
-        kwargs={'spider_name': 'wechat'},
+        kwargs={'spider_name': 'weixin'},
         minutes=2,
         id='job_weixin_cookies',
         replace_existing=True
@@ -91,9 +91,9 @@ def add_job():
     scheduler.add_job(
         job_put_tasks,
         'interval',
-        kwargs={'spider_name': 'wechat'},
+        kwargs={'spider_name': 'weixin'},
         minutes=5,
-        id='job_put_tasks_wechat',
+        id='job_put_tasks_weixin',
         replace_existing=True
     )
 

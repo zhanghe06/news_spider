@@ -19,7 +19,7 @@ class DeDuplicationRequestMiddleware(object):
     def process_request(self, request, spider):
         if not request.url:
             return None
-        if spider.name in ['weixin', 'wechat_check_gh']:
+        if spider.name in ['weixin', 'weixin_check_gh']:
             if is_dup_detail(request.url, spider.name):
                 raise IgnoreRequest("Spider: %s, DeDuplicationRequest: %s" % (spider.name, request.url))
         elif is_dup_detail(request.url, spider.name):

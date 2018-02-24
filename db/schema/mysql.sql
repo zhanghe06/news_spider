@@ -57,4 +57,6 @@ CREATE TABLE `fetch_result` (
   UNIQUE KEY idx_platform_article_id (`platform_id`, `article_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='抓取结果表';
 
-ALTER TABLE `fetch_result` MODIFY `article_content` MEDIUMTEXT COMMENT '文章内容';
+
+-- 更新记录[2018-02-13]
+# ALTER TABLE `fetch_result` MODIFY `article_content` MEDIUMTEXT COMMENT '文章内容';

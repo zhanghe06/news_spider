@@ -32,7 +32,7 @@ def remote_to_local(remote_file_path):
 
 def add_src(html_body, base=u''):
     """
-    添加图片文件真实链接
+    添加图片文件链接（1、添加真实链接；2、替换本地链接）
     :param html_body:
     :param base:
     :return:
@@ -42,13 +42,41 @@ def add_src(html_body, base=u''):
     for img_src in img_data_src_list:
         # 处理相对链接
         if base:
-            img_src = urljoin(base, img_src)
-        if img_src.startswith(u'/'):
+            new_img_src = urljoin(base, img_src)
+        if new_img_src.startswith(u'/'):
             continue
         # 远程转本地
-        local_img_src = remote_to_local(img_src)
-        html_body = html_body.replace(img_src, '%(img_src)s" src="%(local_img_src)s' % {'img_src': img_src,
-                                                                                        'local_img_src': local_img_src})
+        local_img_src = remote_to_local(new_img_src)
+        img_dict = {
+            'img_src': img_src,
+            'local_img_src': local_img_src
+        }
+        html_body = html_body.replace(img_src, '%(img_src)s" src="%(local_img_src)s' % img_dict)
+    return html_body
+
+
+def replace_src(html_body, base=u''):
+    """
+    替换图片文件链接（替换本地链接）
+    :param html_body:
+    :param base:
+    :return:
+    """
+    rule = ur'src="(.*?)"'
+    img_data_src_list = re.compile(rule, re.I).findall(html_body)
+    for img_src in img_data_src_list:
+        # 处理相对链接
+        if base:
+            new_img_src = urljoin(base, img_src)
+        if new_img_src.startswith(u'/'):
+            continue
+        # 远程转本地
+        local_img_src = remote_to_local(new_img_src)
+        img_dict = {
+            'img_src': img_src,
+            'local_img_src': local_img_src
+        }
+        html_body = html_body.replace(img_src, '%(local_img_src)s" data-src="%(img_src)s' % img_dict)
     return html_body
 
 
@@ -68,4 +96,8 @@ class ImgRemoteToLocalFSPipeline(object):
                 html_body = item['article_content']
                 base = item['article_url']
                 item['article_content'] = add_src(html_body, base)
+            if spider_name == 'weibo':
+                html_body = item['article_content']
+                base = item['article_url']
+                item['article_content'] = replace_src(html_body, base)
         return item

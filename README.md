@@ -26,7 +26,7 @@ virtualenv news_spider.env          # 创建虚拟环境
 source env_develop.sh               # 激活虚拟环境
 pip install -r requirements.txt     # 安装环境依赖
 # 开发环境 模拟单次抓取
-python tasks/job_put_tasks.py       # 初次创建任务
+python tasks/job_put_tasks.py wx    # 初次创建任务
 python tasks/jobs_sogou.py          # 初次应对反爬
 scrapy crawl weixin                 # 开启微信爬虫
 # 生产环境 开启持续抓取
