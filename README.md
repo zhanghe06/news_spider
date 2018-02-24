@@ -88,6 +88,18 @@ scrapy genspider weixin mp.weixin.qq.com
 scrapy crawl weixin
 ```
 
+如需测试微博, 修改以下方法, 更改正确用户名和密码
+
+tools/weibo.py
+```
+def get_login_data():
+    return {
+        'username': '******',
+        'password': '******'
+    }
+```
+
+
 ### 验证码识别
 
 http://www.ruokuai.com/

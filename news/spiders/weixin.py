@@ -3,10 +3,10 @@
 
 import scrapy
 
-from models.news import FetchTask, FetchResult
+from models.news import FetchTask
 from news.items import FetchResultItem
-from apps.client_db import get_all, get_group, get_item
-from maps.platform import WEIXIN, platform_name_map
+from apps.client_db import get_item
+from maps.platform import platform_name_map
 from maps.channel import channel_name_map
 from tools.url import get_update_url
 from tools.weixin import parse_weixin_js_body, ParseJsWc, parse_weixin_article_id

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+
 import json
 
 import re
@@ -30,14 +32,15 @@ class WeiboSpider(scrapy.Spider):
         },
         USER_AGENT='Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:57.0) Gecko/20100101 Firefox/57.0',
         DOWNLOADER_MIDDLEWARES={
-            # 'news.middlewares.de_duplication_request.DeDuplicationRequestMiddleware': 140,  # 去重请求
+            'news.middlewares.de_duplication_request.DeDuplicationRequestMiddleware': 140,  # 去重请求
             # 'news.middlewares.anti_spider.AntiSpiderMiddleware': 160,  # 反爬处理
             'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
             'news.middlewares.useragent.UserAgentMiddleware': 500,
         },
         ITEM_PIPELINES={
-            'news.pipelines.store_mysql.StoreMysqlPipeline': 400,
-            # 'news.pipelines.de_duplication_request.DeDuplicationRequestPipeline': 500,
+            'news.pipelines.de_duplication_store_mysql.DeDuplicationStoreMysqlPipeline': 400,  # 去重存储
+            'news.pipelines.store_mysql.StoreMysqlPipeline': 450,
+            'news.pipelines.de_duplication_request.DeDuplicationRequestPipeline': 500,  # 去重请求
         },
     )
 
