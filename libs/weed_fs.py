@@ -15,6 +15,7 @@ import requests
 
 from config import current_config
 
+
 REQUESTS_TIME_OUT = current_config.REQUESTS_TIME_OUT
 
 
@@ -31,10 +32,16 @@ class WeedFSClient(object):
     def _get_assign(self):
         """
         获取分配的资源（url fid）
-        {"fid":"1,014e123ade","url":"127.0.0.1:8080","publicUrl":"127.0.0.1:8080","count":1}
+        接口消息 - 正确:
+            {"fid":"1,014e123ade","url":"127.0.0.1:8080","publicUrl":"127.0.0.1:8080","count":1}
+        接口消息 - 错误:
+            {"error":"No free volumes left!"}
         """
         url = '%s/dir/assign' % self.weed_fs_url
-        return requests.get(url, timeout=REQUESTS_TIME_OUT).json()
+        res = requests.get(url, timeout=REQUESTS_TIME_OUT).json()
+        if 'error' in res:
+            raise Exception(res['error'])
+        return res
 
     def _get_locations(self, fid):
         """
@@ -58,16 +65,12 @@ class WeedFSClient(object):
         elif remote_file_path:
             headers = {'Host': urlparse(remote_file_path).netloc}  # 防反爬, 指定图片 Host
             headers.update(self.request_headers)
-            print headers
             res = requests.get(remote_file_path, headers=headers, timeout=REQUESTS_TIME_OUT)
             if res.status_code == 200:
                 file_obj = res.content
             else:
-                print(res)
                 raise Exception('File does not exist')
-        elif file_obj:
-            pass
-        else:
+        elif not file_obj:
             raise Exception('File does not exist')
 
         res = requests.post(url, files={'file': file_obj}, timeout=REQUESTS_TIME_OUT)
