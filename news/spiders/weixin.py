@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import scrapy
 
 from models.news import FetchTask
@@ -135,16 +138,16 @@ class WeixinSpider(scrapy.Spider):
         fetch_result_item = FetchResultItem()
         fetch_result_item['task_id'] = response.meta['task_id']
         fetch_result_item['platform_id'] = response.meta['platform_id']
-        fetch_result_item['platform_name'] = platform_name_map.get(response.meta['platform_id'], u'')
+        fetch_result_item['platform_name'] = platform_name_map.get(response.meta['platform_id'], '')
         fetch_result_item['channel_id'] = response.meta['channel_id']
-        fetch_result_item['channel_name'] = channel_name_map.get(response.meta['channel_id'], u'')
+        fetch_result_item['channel_name'] = channel_name_map.get(response.meta['channel_id'], '')
         fetch_result_item['article_id'] = response.meta['article_id']
         fetch_result_item['article_title'] = response.meta['article_title']
         fetch_result_item['article_author_id'] = response.meta['follow_id']
         fetch_result_item['article_author_name'] = response.meta['follow_name']
         fetch_result_item['article_pub_time'] = response.meta['article_pub_time']
         fetch_result_item['article_url'] = response.meta['article_url']
-        fetch_result_item['article_tags'] = u''
+        fetch_result_item['article_tags'] = ''
         fetch_result_item['article_abstract'] = response.meta['article_abstract']
         fetch_result_item['article_content'] = article_content
 
