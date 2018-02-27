@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
 
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import json
 
 import re
 import scrapy
 import urllib
 import time
-from lxml.html import fromstring
+from lxml.html import fromstring, tostring
 from datetime import datetime
 from apps.client_db import get_item
 from maps.channel import channel_name_map
@@ -15,7 +18,7 @@ from maps.platform import platform_name_map
 from models.news import FetchTask
 from news.items import FetchResultItem
 from tools.scrapy_tasks import pop_task
-from tools.weibo import get_su, get_login_data, parse_article_list_js
+from tools.weibo import get_su, get_login_data
 from tools.url import get_update_url, get_request_finger
 
 
@@ -162,7 +165,7 @@ class WeiboSpider(scrapy.Spider):
         """
         print(response.url)
         title = response.xpath('//title/text()').extract_first()
-        if title == u'我的首页':
+        if title == '我的首页':
             print('登录成功')
             # follow_url = 'https://weibo.cn/%s/follow' % self.uid
             # yield scrapy.Request(url=follow_url, callback=self.parse_follow_list)
@@ -179,7 +182,7 @@ class WeiboSpider(scrapy.Spider):
         """
         print(response.url)
         title = response.xpath('//title/text()').extract_first()
-        if u'我的首页' in title:
+        if '我的首页' in title:
             print('登录成功')
             # follow_url = 'https://weibo.cn/%s/follow' % self.uid
             # yield scrapy.Request(url=follow_url, callback=self.parse_follow_list)
@@ -198,7 +201,7 @@ class WeiboSpider(scrapy.Spider):
             yield scrapy.Request(url=follow, callback=self.follow_home_list)
 
         # 关注列表翻页
-        next_url = response.xpath('//div[@id="pagelist"]//a[contains(text(), "下页")]/@href').extract_first(default=u'')
+        next_url = response.xpath('//div[@id="pagelist"]//a[contains(text(), "下页")]/@href').extract_first(default='')
         next_url = response.urljoin(next_url)
         if next_url == response.url:
             print('当前条件列表页最后一页：%s' % response.url)
@@ -259,15 +262,20 @@ class WeiboSpider(scrapy.Spider):
         # 页面解析(微博是JS动态数据, 无法直接解析页面)
         article_list_body = response.body_as_unicode()
 
-        parse_article_list_js(article_list_body)
-
-        article_list_rule = ur'<script>FM.view\({"ns":"pl.content.miniTab.index","domid":"Pl_Core_ArticleList__\d+".*?"html":"(.*?)"}\)</script>'
+        article_list_rule = r'<script>FM.view\({"ns":"pl.content.miniTab.index","domid":"Pl_Core_ArticleList__\d+".*?"html":"(.*?)"}\)</script>'
         article_list_re_parse = re.compile(article_list_rule, re.S).findall(article_list_body)
         if not article_list_re_parse:
             return
-        article_list_html = u''.join(article_list_re_parse)
+        article_list_html = ''.join(article_list_re_parse)
 
-        article_list_doc = fromstring(article_list_html.replace(u'\\', u''))
+        # 转义字符处理
+        article_list_html = article_list_html.replace('\\r', '')
+        article_list_html = article_list_html.replace('\\t', '')
+        article_list_html = article_list_html.replace('\\n', '')
+        article_list_html = article_list_html.replace('\\"', '"')
+        article_list_html = article_list_html.replace('\\/', '/')
+
+        article_list_doc = fromstring(article_list_html)
         article_list_doc_parse = article_list_doc.xpath('//div[@class="text_box"]')
 
         for article_item in article_list_doc_parse:
@@ -280,7 +288,7 @@ class WeiboSpider(scrapy.Spider):
             article_detail_url = response.urljoin(article_detail_url)
             article_detail_title = article_detail_title[0].strip()
 
-            article_detail_abstract = article_detail_abstract[0].strip() if article_detail_abstract else u''
+            article_detail_abstract = article_detail_abstract[0].strip() if article_detail_abstract else ''
 
             meta_article_item = {
                 'article_url': article_detail_url,
@@ -291,7 +299,7 @@ class WeiboSpider(scrapy.Spider):
 
             meta = dict(response.meta, **meta_article_item)
 
-            # TODO 两种不同页面
+            # 两种不同类型页面
             if '/ttarticle/p/show?id=' in article_detail_url:
                 yield scrapy.Request(url=article_detail_url, callback=self.parse_article_detail_html, meta=meta)
             else:
@@ -304,6 +312,7 @@ class WeiboSpider(scrapy.Spider):
         else:
             next_url = next_url_parse[0]
             next_url = response.urljoin(next_url)
+            print(next_url)
             yield scrapy.Request(url=next_url, callback=self.parse_article_list, meta=response.meta)
 
     def parse_article_detail_html(self, response):
@@ -312,22 +321,22 @@ class WeiboSpider(scrapy.Spider):
         :param response:
         :return:
         """
-        article_title = response.xpath('//div[@class="title"]/text()').extract_first(default=u'')
-        article_pub_time = response.xpath('//span[@class="time"]/text()').extract_first(default=u'')
-        article_content = response.xpath('//div[@class="WB_editor_iframe"]').extract_first(default=u'')
+        article_title = response.xpath('//div[@class="title"]/text()').extract_first(default='')
+        article_pub_time = response.xpath('//span[@class="time"]/text()').extract_first(default='')
+        article_content = response.xpath('//div[@class="WB_editor_iframe"]').extract_first(default='')
         fetch_result_item = FetchResultItem()
         fetch_result_item['task_id'] = response.meta['task_id']
         fetch_result_item['platform_id'] = response.meta['platform_id']
-        fetch_result_item['platform_name'] = platform_name_map.get(response.meta['platform_id'], u'')
+        fetch_result_item['platform_name'] = platform_name_map.get(response.meta['platform_id'], '')
         fetch_result_item['channel_id'] = response.meta['channel_id']
-        fetch_result_item['channel_name'] = channel_name_map.get(response.meta['channel_id'], u'')
+        fetch_result_item['channel_name'] = channel_name_map.get(response.meta['channel_id'], '')
         fetch_result_item['article_id'] = response.meta['article_id']
         fetch_result_item['article_title'] = article_title
         fetch_result_item['article_author_id'] = response.meta['follow_id']
         fetch_result_item['article_author_name'] = response.meta['follow_name']
         fetch_result_item['article_pub_time'] = article_pub_time
         fetch_result_item['article_url'] = response.url
-        fetch_result_item['article_tags'] = u''
+        fetch_result_item['article_tags'] = ''
         fetch_result_item['article_abstract'] = response.meta['article_abstract']
         fetch_result_item['article_content'] = article_content
         yield fetch_result_item
@@ -339,10 +348,10 @@ class WeiboSpider(scrapy.Spider):
         :param time_str:
         :return:
         """
-        time_rule = ur'(\d+)年(\d+)月(\d+)日 (\d+):(\d+)'
+        time_rule = r'(\d+)年(\d+)月(\d+)日 (\d+):(\d+)'
         time_parse = re.compile(time_rule, re.S).findall(time_str)
         if not time_parse:
-            return time.strftime("%Y-%m-%d %H:%M:%S")
+            return time.strftime('%Y-%m-%d %H:%M:%S')
         return datetime(*[int(i) for i in time_parse[0]]).strftime('%Y-%m-%d %H:%M:%S')
 
     def parse_article_detail_js(self, response):
@@ -352,36 +361,43 @@ class WeiboSpider(scrapy.Spider):
         :return:
         """
         article_detail_body = response.body_as_unicode()
-        article_detail_rule = ur'<script>FM.view\({"ns":.*?"html":"(.*?)"}\)</script>'
+        article_detail_rule = r'<script>FM.view\({"ns":.*?"html":"(.*?)"}\)</script>'
         article_detail_re_parse = re.compile(article_detail_rule, re.S).findall(article_detail_body)
         if not article_detail_re_parse:
             return
-        article_detail_html = u''.join(article_detail_re_parse)
+        article_detail_html = ''.join(article_detail_re_parse)
 
-        article_detail_doc = fromstring(article_detail_html.replace(u'\\', u''))
+        # 转义字符处理
+        article_detail_html = article_detail_html.replace('\\r', '')
+        article_detail_html = article_detail_html.replace('\\t', '')
+        article_detail_html = article_detail_html.replace('\\n', '')
+        article_detail_html = article_detail_html.replace('\\"', '"')
+        article_detail_html = article_detail_html.replace('\\/', '/')
+
+        article_detail_doc = fromstring(article_detail_html)
 
         article_title_parse = article_detail_doc.xpath('//h1[@class="title"]/text()')
-        article_title = article_title_parse[0].strip() if article_title_parse else u''
+        article_title = article_title_parse[0].strip() if article_title_parse else ''
 
         article_pub_time_parse = article_detail_doc.xpath('//span[@class="time"]/text()')
-        article_pub_time = self.trans_time(article_pub_time_parse[0].strip())
+        article_pub_time = self.trans_time(article_pub_time_parse[0].strip()) if article_pub_time_parse else time.strftime('%Y-%m-%d %H:%M:%S')
 
-        article_content_parse = article_detail_doc.xpath('//div[@class="WBA_content"]/text()')
-        article_content = article_content_parse[0].strip() if article_content_parse else u''
+        article_content_parse = article_detail_doc.xpath('//div[@class="WBA_content"]')
+        article_content = tostring(article_content_parse[0], encoding='unicode').strip() if article_content_parse else ''
 
         fetch_result_item = FetchResultItem()
         fetch_result_item['task_id'] = response.meta['task_id']
         fetch_result_item['platform_id'] = response.meta['platform_id']
-        fetch_result_item['platform_name'] = platform_name_map.get(response.meta['platform_id'], u'')
+        fetch_result_item['platform_name'] = platform_name_map.get(response.meta['platform_id'], '')
         fetch_result_item['channel_id'] = response.meta['channel_id']
-        fetch_result_item['channel_name'] = channel_name_map.get(response.meta['channel_id'], u'')
+        fetch_result_item['channel_name'] = channel_name_map.get(response.meta['channel_id'], '')
         fetch_result_item['article_id'] = response.meta['article_id']
         fetch_result_item['article_title'] = article_title
         fetch_result_item['article_author_id'] = response.meta['follow_id']
         fetch_result_item['article_author_name'] = response.meta['follow_name']
         fetch_result_item['article_pub_time'] = article_pub_time
         fetch_result_item['article_url'] = response.url
-        fetch_result_item['article_tags'] = u''
+        fetch_result_item['article_tags'] = ''
         fetch_result_item['article_abstract'] = response.meta['article_abstract']
         fetch_result_item['article_content'] = article_content
         yield fetch_result_item

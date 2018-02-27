@@ -99,6 +99,26 @@ def get_login_data():
     }
 ```
 
+### 蜘蛛调试（以微博为例）
+1. 清除中间件去重缓存, 重置调试任务
+```
+127.0.0.1:6379> DEL "dup:weibo:0"
+(integer) 1
+127.0.0.1:6379> DEL "scrapy:tasks_set:weibo" 130
+(integer) 1
+127.0.0.1:6379> SADD "scrapy:tasks_set:weibo" 130
+(integer) 1
+127.0.0.1:6379>
+```
+2. 清除调试蜘蛛存储数据
+```mysql
+DELETE FROM fetch_result WHERE platform_id=2;
+```
+3. 启动调试蜘蛛
+```bash
+scrapy crawl weibo
+```
+
 
 ### 验证码识别
 
