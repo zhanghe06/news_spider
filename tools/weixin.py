@@ -44,9 +44,7 @@ def parse_weixin_js_body(html_body, url=''):
     rule = ur'<script type="text/javascript">.*?document.domain="qq.com";(.*?)seajs.use\("sougou/profile.js"\);.*?</script>'
     js_list = re.compile(rule, re.S).findall(html_body)
     if not js_list:
-        html_path = os.path.join(BASE_DIR, 'errors/wechat/%s.html' % (url or time.time()))
-        with open(html_path, 'w') as f:
-            f.write(html_body.encode('utf-8'))
+        print('parse error url: %s' % url)
     return u''.join(js_list)
 
 

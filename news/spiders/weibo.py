@@ -23,6 +23,9 @@ from tools.url import get_update_url, get_request_finger
 
 
 class WeiboSpider(scrapy.Spider):
+    """
+    微博蜘蛛
+    """
     name = 'weibo'
     allowed_domains = ['weibo.com', 'weibo.cn', 'sina.com.cn', 'sina.cn']
 
