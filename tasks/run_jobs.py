@@ -9,13 +9,11 @@
 """
 
 
-from datetime import datetime, timedelta
-
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 from config import current_config
 
-from tasks.job_put_tasks import job_put_tasks
+from tasks import job_put_tasks
 from tasks.jobs_sogou import job_sogou_cookies
 from tasks.jobs_weixin import job_weixin_cookies
 from apps.client_rk import counter_clear as job_counter_clear
@@ -87,13 +85,33 @@ def add_job():
         replace_existing=True
     )
 
-    # 分布式任务调度
+    # 分布式任务调度 - 微信
     scheduler.add_job(
         job_put_tasks,
         'interval',
         kwargs={'spider_name': 'weixin'},
         minutes=5,
         id='job_put_tasks_weixin',
+        replace_existing=True
+    )
+
+    # 分布式任务调度 - 微博
+    scheduler.add_job(
+        job_put_tasks,
+        'interval',
+        kwargs={'spider_name': 'weibo'},
+        minutes=5,
+        id='job_put_tasks_weibo',
+        replace_existing=True
+    )
+
+    # 分布式任务调度 - 头条
+    scheduler.add_job(
+        job_put_tasks,
+        'interval',
+        kwargs={'spider_name': 'toutiao'},
+        minutes=5,
+        id='job_put_tasks_toutiao',
         replace_existing=True
     )
 
