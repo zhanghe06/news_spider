@@ -10,6 +10,7 @@ cryptography==2.1.4
 cssselect==1.0.3
 enum34==1.1.6
 funcsigs==1.0.2
+future==0.16.0
 futures==3.2.0
 hyperlink==17.3.1
 idna==2.6

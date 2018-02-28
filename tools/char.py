@@ -10,7 +10,10 @@
 
 
 import execjs
-from HTMLParser import HTMLParser
+
+# from HTMLParser import HTMLParser     # PY2
+# from html.parser import HTMLParser    # PY3
+from future.moves.html.parser import HTMLParser
 
 html_parser = HTMLParser()
 
@@ -30,7 +33,7 @@ def get_js_36_str(i):
     :param i:
     :return:
     """
-    js_body = u'''
+    js_body = '''
         function get_36_str(i) {
             return i.toString(36);
         };
@@ -44,7 +47,7 @@ if __name__ == '__main__':
     b = '\xe5\xbd\x93\xe5\x89\x8d\xe5\xb7\xb2\xe8\xbe\xbe\xe5\x88\xb0\xe6\x8a\x93\xe5\x8f\x96\xe9\x85\x8d\xe7\xbd\xae\xe7\x9a\x84\xe6\x9c\x80\xe5\xa4\xa7\xe9\xa1\xb5\xe7\xa0\x81'
     c = 'https://mp.weixin.qq.com/s?timestamp=1511432702&amp;src=3&amp;ver=1&amp;signature=lAC8MtonFiHnlc5-j4z48WcPRpfP1Nn4zxCmY4ZjCjdXQscLcB5uyi5Jb395m5yaZQHTqqSlqzy*HRR0nAPZHsz0*Efu3w*Y2B8XbIL5v8pZQsGt9cwZQTuvI0GZqAsZobqzaeDptAQzHLB4QKL-qExOz0ANOTG*QAvJ7-ZurMg='
     d = 'http://mp.weixin.qq.com/mp/homepage?__biz=MzAxNzU2Mjc4NQ==&amp;hid=2&amp;sn=8177890cc7e468d3df6f3050d49951c5#wechat_redirect'
-    print un_escape(a)
-    print un_escape(b)
-    print un_escape(c)
-    print un_escape(d)
+    print(un_escape(a))
+    print(un_escape(b))
+    print(un_escape(c))
+    print(un_escape(d))

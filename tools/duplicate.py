@@ -8,6 +8,8 @@
 @time: 2018-02-10 17:39
 """
 
+from __future__ import print_function
+from __future__ import unicode_literals
 
 from apps.client_db import redis_client
 from tools.url import get_request_finger

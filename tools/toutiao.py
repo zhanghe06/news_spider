@@ -50,7 +50,7 @@ def parse_toutiao_js_body(html_body, url=''):
     :param url:
     :return:
     """
-    rule = ur'<script>(var BASE_DATA = {.*?};)</script>'
+    rule = r'<script>(var BASE_DATA = {.*?};)</script>'
     js_list = re.compile(rule, re.S).findall(html_body)
     if not js_list:
         print('parse error url: %s' % url)
@@ -75,7 +75,7 @@ class ParseJsTt(object):
         self.ctx = execjs.compile(self.js_body)
 
     def _add_js_item_id_fn(self):
-        js_item_id_fn = u"""
+        js_item_id_fn = """
         function r_item_id() {
             return BASE_DATA.articleInfo.itemId;
         };
@@ -83,7 +83,7 @@ class ParseJsTt(object):
         self.js_body += js_item_id_fn
 
     def _add_js_title_fn(self):
-        js_title_fn = u"""
+        js_title_fn = """
         function r_title() {
             return BASE_DATA.articleInfo.title;
         };
@@ -91,7 +91,7 @@ class ParseJsTt(object):
         self.js_body += js_title_fn
 
     def _add_js_abstract_fn(self):
-        js_abstract_fn = u"""
+        js_abstract_fn = """
         function r_abstract() {
             return BASE_DATA.shareInfo.abstract;
         };
@@ -99,7 +99,7 @@ class ParseJsTt(object):
         self.js_body += js_abstract_fn
 
     def _add_js_content_fn(self):
-        js_content_fn = u"""
+        js_content_fn = """
         function r_content() {
             return BASE_DATA.articleInfo.content;
         };
@@ -107,7 +107,7 @@ class ParseJsTt(object):
         self.js_body += js_content_fn
 
     def _add_js_pub_time(self):
-        js_pub_time_fn = u"""
+        js_pub_time_fn = """
                 function r_pub_time() {
                     return BASE_DATA.articleInfo.subInfo.time;
                 };
@@ -115,7 +115,7 @@ class ParseJsTt(object):
         self.js_body += js_pub_time_fn
 
     def _add_js_tags_fn(self):
-        js_tags_fn = u"""
+        js_tags_fn = """
         function r_tags() {
             return BASE_DATA.articleInfo.tagInfo.tags;
         };
@@ -123,22 +123,22 @@ class ParseJsTt(object):
         self.js_body += js_tags_fn
 
     def parse_js_item_id(self):
-        return self.ctx.call('r_item_id') or u''
+        return self.ctx.call('r_item_id') or ''
 
     def parse_js_title(self):
-        return self.ctx.call('r_title') or u''
+        return self.ctx.call('r_title') or ''
 
     def parse_js_abstract(self):
-        return self.ctx.call('r_abstract') or u''
+        return self.ctx.call('r_abstract') or ''
 
     def parse_js_content(self):
-        return un_escape(self.ctx.call('r_content')) or u''
+        return un_escape(self.ctx.call('r_content')) or ''
 
     def parse_js_pub_time(self):
         return self.ctx.call('r_pub_time') or time.strftime('%Y-%m-%d %H:%M:%S')
 
     def parse_js_tags(self):
-        return ','.join([tag['name'] or u'' for tag in self.ctx.call('r_tags')])
+        return ','.join([tag['name'] or '' for tag in self.ctx.call('r_tags')])
 
 
 if __name__ == '__main__':

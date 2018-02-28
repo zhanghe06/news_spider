@@ -10,6 +10,9 @@
 
 
 from __future__ import print_function
+from __future__ import unicode_literals
+
+from future.builtins import input               # PY2(raw_input)
 
 import random
 import time
@@ -49,9 +52,9 @@ def _get_tc():
 def _save_img(res):
     # 保存验证码图片
     img_name = 'sogou_%s.jpg' % _get_tc()
-    print(u'图片名称: %s' % img_name)
+    print('图片名称: %s' % img_name)
     img_content = res.content
-    with open(img_name, 'w') as f:
+    with open(img_name, b'w') as f:
         f.write(img_content)
     time.sleep(1)
 
@@ -412,7 +415,7 @@ def manual_cookies():
     pv_seccode_input()
     pv_seccode_blur()
 
-    input_code = raw_input('code << ')
+    input_code = input('code << ')
 
     thank(input_code)
 
@@ -455,7 +458,7 @@ def auto_cookies():
         res = thank(img_code)
         if res.get('code') == 0:
             # 识别成功
-            cookies['SNUID'] = res.get('id', u'')
+            cookies['SNUID'] = res.get('id', '')
             break
         elif res.get('code') == 3:
             # 报告错误识别

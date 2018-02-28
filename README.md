@@ -8,6 +8,7 @@
 服务依赖:
 - MariaDB
 - Redis
+- NodeJS
 
 本项目依赖第三方验证码识别服务, 注册地址: http://www.ruokuai.com/
 
@@ -52,6 +53,7 @@ pip install Pillow
 pip install psutil
 pip install apscheduler
 pip install supervisor
+pip install future  # 兼容py2、py3
 ```
 
 Mac 系统环境依赖（mariadb）

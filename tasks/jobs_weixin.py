@@ -140,8 +140,8 @@ def run():
             fun_name(sys.argv[2])
         else:
             usage()
-    except NameError, e:
-        print e
+    except NameError as e:
+        print(e)
 
 
 if __name__ == '__main__':

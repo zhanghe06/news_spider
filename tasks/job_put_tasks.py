@@ -60,7 +60,7 @@ def run():
     """
     入口
     """
-    print sys.argv
+    # print(sys.argv)
     spider_name_maps = {
         'wx': 'weixin',
         'wb': 'weibo',

@@ -9,8 +9,10 @@
 """
 
 
-import urllib
-import urlparse
+# from urllib import urlencode                                                      # PY2
+# from urlparse import urlparse, urlunparse, parse_qsl                              # PY2
+# from urllib.parse import urlparse, urlunparse, parse_qsl, urlencode               # PY3
+from future.moves.urllib.parse import urlparse, urlunparse, parse_qsl, urlencode
 
 from scrapy.utils import request
 from scrapy.http import Request
@@ -23,10 +25,10 @@ def get_update_url(url, data):
     :param data:
     :return:
     """
-    result = urlparse.urlparse(url)
-    query_payload = dict(urlparse.parse_qsl(result.query), **data)
-    query_param = urllib.urlencode(query_payload)
-    return urlparse.urlunparse((result.scheme, result.netloc, result.path, result.params, query_param, result.fragment))
+    result = urlparse(url)
+    query_payload = dict(parse_qsl(result.query), **data)
+    query_param = urlencode(query_payload)
+    return urlunparse((result.scheme, result.netloc, result.path, result.params, query_param, result.fragment))
 
 
 def get_url_query_param(url, param):
@@ -36,8 +38,8 @@ def get_url_query_param(url, param):
     :param param:
     :return:
     """
-    result = urlparse.urlparse(url)
-    return dict(urlparse.parse_qsl(result.query)).get(param)
+    result = urlparse(url)
+    return dict(parse_qsl(result.query)).get(param)
 
 
 def get_request_finger(url):

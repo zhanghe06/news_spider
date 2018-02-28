@@ -45,7 +45,7 @@ def _print_info(contents, topic=''):
         print('\n[%s]' % topic)
     contents.insert(0, '-' * 31)
     contents.append('-' * 31)
-    print '\n'.join(contents)
+    print('\n'.join(contents))
 
 
 def _cpu():

@@ -12,7 +12,7 @@ from apps.client_db import get_item
 from maps.platform import platform_name_map
 from maps.channel import channel_name_map
 from tools.url import get_update_url
-from tools.weixin import parse_weixin_js_body, ParseJsWc, parse_weixin_article_id
+from tools.weixin import parse_weixin_js_body, ParseJsWc
 from tools.cookies import get_cookies
 from tools.scrapy_tasks import pop_task
 
@@ -61,6 +61,7 @@ class WeixinSpider(scrapy.Spider):
         if not task_id:
             print('%s task is empty' % self.name)
             return
+        print('%s task id: %s' % (self.name, task_id))
 
         task_item = get_item(FetchTask, task_id)
 
@@ -125,8 +126,6 @@ class WeixinSpider(scrapy.Spider):
         :param response:
         :return:
         """
-        print(response.meta)
-
         article_content = ''.join([i.strip() for i in response.xpath('//div[@id="js_content"]/*').extract()])
 
         # 原创内容处理（处理内容为空）

@@ -71,7 +71,7 @@ class ToutiaoSpider(scrapy.Spider):
         if not task_id:
             print('%s task is empty' % self.name)
             return
-        print('task id: %s' % task_id)
+        print('%s task id: %s' % (self.name, task_id))
 
         task_item = get_item(FetchTask, task_id)
         url_profile = get_update_url(task_item.fetch_url, url_params)

@@ -9,11 +9,13 @@
 """
 
 
-import os
 import re
 import time
 import hashlib
-import urlparse
+
+# from urlparse import urljoin                  # PY2
+# from urllib.parse import urljoin              # PY3
+from future.moves.urllib.parse import urljoin
 
 import execjs
 from tools.char import un_escape
@@ -41,31 +43,31 @@ def parse_weixin_js_body(html_body, url=''):
     :param url:
     :return:
     """
-    rule = ur'<script type="text/javascript">.*?document.domain="qq.com";(.*?)seajs.use\("sougou/profile.js"\);.*?</script>'
+    rule = r'<script type="text/javascript">.*?document.domain="qq.com";(.*?)seajs.use\("sougou/profile.js"\);.*?</script>'
     js_list = re.compile(rule, re.S).findall(html_body)
     if not js_list:
         print('parse error url: %s' % url)
-    return u''.join(js_list)
+    return ''.join(js_list)
 
 
 def parse_weixin_article_id(html_body):
-    rule = ur'<script nonce="(\d+)" type="text\/javascript">'
+    rule = r'<script nonce="(\d+)" type="text\/javascript">'
     article_id_list = re.compile(rule, re.I).findall(html_body)
     return article_id_list[0]
 
 
 def add_img_src(html_body):
-    rule = ur'data-src="(.*?)"'
+    rule = r'data-src="(.*?)"'
     img_data_src_list = re.compile(rule, re.I).findall(html_body)
-    print img_data_src_list
+    print(img_data_src_list)
     for img_src in img_data_src_list:
-        print img_src
-        html_body = html_body.replace(img_src, u'%(img_src)s" src="%(img_src)s' % {'img_src': img_src})
+        print(img_src)
+        html_body = html_body.replace(img_src, '%(img_src)s" src="%(img_src)s' % {'img_src': img_src})
     return html_body
 
 
 def get_img_src_list(html_body, host_name='/', limit=None):
-    rule = ur'src="(%s.*?)"' % host_name
+    rule = r'src="(%s.*?)"' % host_name
     img_data_src_list = re.compile(rule, re.I).findall(html_body)
     if limit:
         return img_data_src_list[:limit]
@@ -82,10 +84,10 @@ class ParseJsWc(object):
         self._add_js_msg_list_fn()
 
         self.ctx = execjs.compile(self.js_body)
-        print self.ctx
+        # print(self.ctx)
 
     def _add_js_msg_list_fn(self):
-        js_msg_list_fn = u"""
+        js_msg_list_fn = """
         function r_msg_list() {
             return msgList.list;
         };
@@ -101,7 +103,7 @@ class ParseJsWc(object):
             {
                 # 'article_id': '%s_000' % msg_id_list[index],
                 'article_id': get_finger(i['title']),
-                'article_url': urlparse.urljoin('https://mp.weixin.qq.com', un_escape(i['content_url'])),
+                'article_url': urljoin('https://mp.weixin.qq.com', un_escape(i['content_url'])),
                 'article_title': i['title'],
                 'article_abstract': i['digest'],
                 'article_pub_time': comm_msg_info_date_time_list[index],
@@ -114,7 +116,7 @@ class ParseJsWc(object):
                     {
                         # 'article_id': '%s_%03d' % (msg_id_list[index_j], index_i + 1),
                         'article_id': get_finger(i['title']),
-                        'article_url': urlparse.urljoin('https://mp.weixin.qq.com', un_escape(i['content_url'])),
+                        'article_url': urljoin('https://mp.weixin.qq.com', un_escape(i['content_url'])),
                         'article_title': i['title'],
                         'article_abstract': i['digest'],
                         'article_pub_time': comm_msg_info_date_time_list[index_j],

@@ -10,6 +10,8 @@
 
 
 from __future__ import print_function
+from __future__ import unicode_literals
+from future.builtins import input               # PY2(raw_input)
 
 import random
 import time
@@ -50,9 +52,9 @@ def _get_tc():
 def _save_img(res):
     # 保存验证码图片
     img_name = 'weixin_%s.jpg' % _get_tc()
-    print(u'图片名称: %s' % img_name)
+    print('图片名称: %s' % img_name)
     img_content = res.content
-    with open(img_name, 'w') as f:
+    with open(img_name, b'w') as f:
         f.write(img_content)
     time.sleep(1)
 
@@ -70,7 +72,7 @@ def anti_spider(url):
     doc = fromstring(res.text)
     title = u''.join(i.strip() for i in doc.xpath('//title/text()'))
     print(title)
-    return title == u'请输入验证码'
+    return title == '请输入验证码'
 
 
 def code_img_save():
@@ -141,11 +143,11 @@ def _get_cookies():
 
 
 def manual_cookies():
-    url = raw_input('url << ')
+    url = input('url << ')
     anti_spider(url)
     code_img_save()
 
-    input_code = raw_input('code << ')
+    input_code = input('code << ')
 
     verify_code(input_code)
 

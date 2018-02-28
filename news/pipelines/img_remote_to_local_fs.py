@@ -7,7 +7,10 @@
 
 
 import re
-from urlparse import urljoin
+
+# from urlparse import urljoin                  # PY2
+# from urllib.parse import urljoin              # PY3
+from future.moves.urllib.parse import urljoin
 
 from news.items import FetchResultItem
 
@@ -37,7 +40,7 @@ def add_src(html_body, base=u''):
     :param base:
     :return:
     """
-    rule = ur'data-src="(.*?)"'
+    rule = r'data-src="(.*?)"'
     img_data_src_list = re.compile(rule, re.I).findall(html_body)
     for img_src in img_data_src_list:
         # 处理相对链接
@@ -62,7 +65,7 @@ def replace_src(html_body, base=u''):
     :param base:
     :return:
     """
-    rule = ur'src="(.*?)"'
+    rule = r'src="(.*?)"'
     img_data_src_list = re.compile(rule, re.I).findall(html_body)
     for img_src in img_data_src_list:
         # 处理相对链接
