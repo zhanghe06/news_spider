@@ -74,7 +74,8 @@ class ToutiaoSpider(scrapy.Spider):
         print('%s task id: %s' % (self.name, task_id))
 
         task_item = get_item(FetchTask, task_id)
-        url_profile = get_update_url(task_item.fetch_url, url_params)
+        fetch_url = 'http://m.toutiao.com/profile/%s/' % task_item.follow_id
+        url_profile = get_update_url(fetch_url, url_params)
         meta = {
             'task_id': task_item.id,
             'platform_id': task_item.platform_id,

@@ -33,7 +33,7 @@ def remote_to_local(remote_file_path):
     return local_file_url
 
 
-def add_src(html_body, base=u''):
+def add_src(html_body, base=''):
     """
     添加图片文件链接（1、添加真实链接；2、替换本地链接）
     :param html_body:
@@ -46,7 +46,7 @@ def add_src(html_body, base=u''):
         # 处理相对链接
         if base:
             new_img_src = urljoin(base, img_src)
-        if new_img_src.startswith(u'/'):
+        if new_img_src.startswith('/'):
             continue
         # 远程转本地
         local_img_src = remote_to_local(new_img_src)
@@ -58,7 +58,7 @@ def add_src(html_body, base=u''):
     return html_body
 
 
-def replace_src(html_body, base=u''):
+def replace_src(html_body, base=''):
     """
     替换图片文件链接（替换本地链接）
     :param html_body:
@@ -68,10 +68,13 @@ def replace_src(html_body, base=u''):
     rule = r'src="(.*?)"'
     img_data_src_list = re.compile(rule, re.I).findall(html_body)
     for img_src in img_data_src_list:
+        # 处理//,补充协议
+        if img_src.startswith('//'):
+            img_src = 'http:%s' % img_src
         # 处理相对链接
         if base:
             new_img_src = urljoin(base, img_src)
-        if new_img_src.startswith(u'/'):
+        if new_img_src.startswith('/'):
             continue
         # 远程转本地
         local_img_src = remote_to_local(new_img_src)
@@ -100,6 +103,10 @@ class ImgRemoteToLocalFSPipeline(object):
                 base = item['article_url']
                 item['article_content'] = add_src(html_body, base)
             if spider_name == 'weibo':
+                html_body = item['article_content']
+                base = item['article_url']
+                item['article_content'] = replace_src(html_body, base)
+            if spider_name == 'toutiao':
                 html_body = item['article_content']
                 base = item['article_url']
                 item['article_content'] = replace_src(html_body, base)
