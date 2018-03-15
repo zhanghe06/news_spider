@@ -25,7 +25,7 @@ class StoreMysqlPipeline(object):
                 session.add(fetch_result)
                 session.flush()
                 # session.commit()
-                return item
+            return item
         except Exception as e:
             raise e
         finally:

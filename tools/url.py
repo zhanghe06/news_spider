@@ -53,6 +53,7 @@ def get_request_finger(url):
 
 
 if __name__ == '__main__':
+    print(get_update_url('http://www.abc.com/def/', {'b': 2}))
     print(get_update_url('http://www.abc.com/def/?a=1', {'b': 2}))
     print(get_update_url('http://www.abc.com/def/?a=1', {'a': 2}))
     print(get_url_query_param('http://www.abc.com/def/?a=1&b=2', 'a'))

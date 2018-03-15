@@ -19,7 +19,7 @@ CREATE TABLE `channel` (
 
 CREATE TABLE `fetch_task` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `platform_id` TINYINT DEFAULT 0 COMMENT '平台（1:微信;2:微博;3:头条）',
+  `platform_id` TINYINT DEFAULT 0 COMMENT '平台id（1:微信;2:微博;3:头条）',
   `channel_id` TINYINT DEFAULT 0 COMMENT '频道id',
   `follow_id` VARCHAR(45) DEFAULT '' COMMENT '关注账号id',
   `follow_name` VARCHAR(45) DEFAULT '' COMMENT '关注账号名称',
@@ -37,8 +37,8 @@ CREATE TABLE `fetch_task` (
 CREATE TABLE `fetch_result` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `task_id` INT NOT NULL COMMENT '任务id',
-  `platform_id` TINYINT DEFAULT 0 COMMENT '平台（1:微信;2:微博;3:头条）',
-  `platform_name` VARCHAR(50) DEFAULT '' COMMENT '平台（1:微信;2:微博;3:头条）',
+  `platform_id` TINYINT DEFAULT 0 COMMENT '平台id（1:微信;2:微博;3:头条）',
+  `platform_name` VARCHAR(50) DEFAULT '' COMMENT '平台名称（1:微信;2:微博;3:头条）',
   `channel_id` TINYINT DEFAULT 0 COMMENT '频道id',
   `channel_name` VARCHAR(50) DEFAULT '' COMMENT '频道名称',
   `article_id` VARCHAR(50) DEFAULT '' COMMENT '文章id',
@@ -57,6 +57,17 @@ CREATE TABLE `fetch_result` (
   UNIQUE KEY idx_platform_article_id (`platform_id`, `article_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='抓取结果表';
 
+
+CREATE TABLE `log_task_scheduling` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `platform_id` TINYINT DEFAULT 0 COMMENT '平台id（1:微信;2:微博;3:头条）',
+  `platform_name` VARCHAR(50) DEFAULT '' COMMENT '平台名称（1:微信;2:微博;3:头条）',
+  `spider_name` VARCHAR(45) DEFAULT '' COMMENT '蜘蛛名称，一般同平台名称',
+  `task_quantity` INT(11) DEFAULT 0 COMMENT '任务数量',
+  `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务调度日志表';
 
 -- 更新记录[2018-02-13]
 # ALTER TABLE `fetch_result` MODIFY `article_content` MEDIUMTEXT COMMENT '文章内容';

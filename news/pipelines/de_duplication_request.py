@@ -25,4 +25,4 @@ class DeDuplicationRequestPipeline(object):
             # 详细页url 加入去重集合
             if not is_dup_detail(item['article_url'], spider_name, item['channel_id']):
                 add_dup_detail(item['article_url'], spider_name, item['channel_id'])
-            return item
+        return item

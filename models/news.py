@@ -66,3 +66,15 @@ class FetchTask(Base):
     description = Column(String(500), server_default=text("''"))
     create_time = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
     update_time = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+
+
+class LogTaskScheduling(Base):
+    __tablename__ = 'log_task_scheduling'
+
+    id = Column(Integer, primary_key=True)
+    platform_id = Column(Integer, server_default=text("'0'"))
+    platform_name = Column(String(50), server_default=text("''"))
+    spider_name = Column(String(45), server_default=text("''"))
+    task_quantity = Column(Integer, server_default=text("'0'"))
+    create_time = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    update_time = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))

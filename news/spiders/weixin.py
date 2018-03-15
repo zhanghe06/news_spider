@@ -6,15 +6,15 @@ from __future__ import unicode_literals
 
 import scrapy
 
+from apps.client_db import get_item
+from maps.channel import channel_name_map
+from maps.platform import platform_name_map
 from models.news import FetchTask
 from news.items import FetchResultItem
-from apps.client_db import get_item
-from maps.platform import platform_name_map
-from maps.channel import channel_name_map
-from tools.url import get_update_url
-from tools.weixin import parse_weixin_js_body, ParseJsWc
 from tools.cookies import get_cookies
 from tools.scrapy_tasks import pop_task
+from tools.url import get_update_url
+from tools.weixin import parse_weixin_js_body, ParseJsWc
 
 
 class WeixinSpider(scrapy.Spider):
@@ -38,6 +38,7 @@ class WeixinSpider(scrapy.Spider):
             'news.middlewares.anti_spider.AntiSpiderMiddleware': 160,  # 反爬处理
             'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
             'news.middlewares.useragent.UserAgentMiddleware': 500,
+            # 'news.middlewares.httpproxy.HttpProxyMiddleware': 720,  # 代理（cookie需要与代理IP关联）
         },
         ITEM_PIPELINES={
             'news.pipelines.de_duplication_store_mysql.DeDuplicationStoreMysqlPipeline': 400,  # 去重存储
@@ -47,7 +48,6 @@ class WeixinSpider(scrapy.Spider):
         },
         DOWNLOAD_DELAY=0.5
     )
-    cookies = {}
 
     def start_requests(self):
         """

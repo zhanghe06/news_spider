@@ -4,19 +4,19 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import time
-import scrapy
 import json
+import time
+
+import scrapy
 
 from apps.client_db import get_item
 from maps.channel import channel_name_map
-
+from maps.platform import platform_name_map
 from models.news import FetchTask
 from news.items import FetchResultItem
 from tools.scrapy_tasks import pop_task
-from tools.url import get_update_url
 from tools.toutiao import get_as_cp, ParseJsTt, parse_toutiao_js_body
-from maps.platform import platform_name_map
+from tools.url import get_update_url
 
 
 class ToutiaoSpider(scrapy.Spider):
@@ -39,12 +39,14 @@ class ToutiaoSpider(scrapy.Spider):
             # 'news.middlewares.anti_spider.AntiSpiderMiddleware': 160,  # 反爬处理
             'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
             'news.middlewares.useragent.UserAgentMiddleware': 500,
+            # 'news.middlewares.httpproxy.HttpProxyMiddleware': 720,
         },
         ITEM_PIPELINES={
             'news.pipelines.de_duplication_store_mysql.DeDuplicationStoreMysqlPipeline': 400,  # 去重存储
             'news.pipelines.store_mysql.StoreMysqlPipeline': 450,
             'news.pipelines.de_duplication_request.DeDuplicationRequestPipeline': 500,  # 去重请求
         },
+        DOWNLOAD_DELAY=0.5
     )
 
     # start_urls = ['http://toutiao.com/']

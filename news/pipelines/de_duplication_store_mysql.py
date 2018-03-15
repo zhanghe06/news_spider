@@ -42,7 +42,7 @@ class DeDuplicationStoreMysqlPipeline(object):
                     if article_url_count:
                         raise DropItem('%s Has been duplication of article_url: %s' % (spider.name, item['article_url']))
 
-                return item
+            return item
         except Exception as e:
             raise e
         finally:

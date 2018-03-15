@@ -19,7 +19,6 @@ class DeDuplicationRequestMiddleware(object):
     def process_request(self, request, spider):
         if not request.url:
             return None
-        if spider.name in ['weixin', 'weibo']:
-            channel_id = request.meta.get('channel_id', 0)
-            if is_dup_detail(request.url, spider.name, channel_id):
-                raise IgnoreRequest("Spider: %s, DeDuplicationRequest: %s" % (spider.name, request.url))
+        channel_id = request.meta.get('channel_id', 0)
+        if is_dup_detail(request.url, spider.name, channel_id):
+            raise IgnoreRequest("Spider: %s, DeDuplicationRequest: %s" % (spider.name, request.url))

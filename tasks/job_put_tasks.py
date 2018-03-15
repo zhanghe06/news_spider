@@ -10,7 +10,7 @@
 
 import sys
 
-from models.news import FetchTask, FetchResult
+from models.news import FetchTask, FetchResult, LogTaskScheduling
 from apps.client_db import get_group, get_all
 from maps.platform import WEIXIN, WEIBO, TOUTIAO
 from tools.scrapy_tasks import put_task, get_tasks_count

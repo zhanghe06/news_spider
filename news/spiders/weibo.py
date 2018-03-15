@@ -5,21 +5,22 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import json
-
 import re
-import scrapy
-import urllib
 import time
-from lxml.html import fromstring, tostring
 from datetime import datetime
+
+import scrapy
+import six
+from lxml.html import fromstring, tostring
+
 from apps.client_db import get_item
 from maps.channel import channel_name_map
 from maps.platform import platform_name_map
 from models.news import FetchTask
 from news.items import FetchResultItem
 from tools.scrapy_tasks import pop_task
-from tools.weibo import get_su, get_login_data
 from tools.url import get_update_url, get_request_finger
+from tools.weibo import get_su, get_login_data
 
 
 class WeiboSpider(scrapy.Spider):
@@ -42,12 +43,14 @@ class WeiboSpider(scrapy.Spider):
             # 'news.middlewares.anti_spider.AntiSpiderMiddleware': 160,  # 反爬处理
             'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
             'news.middlewares.useragent.UserAgentMiddleware': 500,
+            # 'news.middlewares.httpproxy.HttpProxyMiddleware': 720,
         },
         ITEM_PIPELINES={
             'news.pipelines.de_duplication_store_mysql.DeDuplicationStoreMysqlPipeline': 400,  # 去重存储
             'news.pipelines.store_mysql.StoreMysqlPipeline': 450,
             'news.pipelines.de_duplication_request.DeDuplicationRequestPipeline': 500,  # 去重请求
         },
+        DOWNLOAD_DELAY=0.5
     )
 
     passport_weibo_login_url = 'https://passport.weibo.cn/signin/login'
@@ -90,8 +93,7 @@ class WeiboSpider(scrapy.Spider):
             'su': get_su(login_data.get('username', '')),
             'callback': 'jsonpcallback%13d' % (time.time()*1000),
         }
-        query_param = urllib.urlencode(query_payload)
-        request_url = '%s?%s' % (login_sina_sso_prelogin_url, query_param)
+        request_url = get_update_url(login_sina_sso_prelogin_url, query_payload)
 
         yield scrapy.Request(url=request_url, callback=self.passport_weibo_sso_login)
 
@@ -252,7 +254,7 @@ class WeiboSpider(scrapy.Spider):
         """
         用字典实现批量替换
         """
-        for k, v in replace_dict.iteritems():
+        for k, v in six.iteritems(replace_dict):
             input_html = input_html.replace(k, v)
         return input_html
 
