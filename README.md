@@ -106,7 +106,7 @@ def get_login_data():
 ```
 127.0.0.1:6379> DEL "dup:weibo:0"
 (integer) 1
-127.0.0.1:6379> DEL "scrapy:tasks_set:weibo" 130
+127.0.0.1:6379> DEL "scrapy:tasks_set:weibo"
 (integer) 1
 127.0.0.1:6379> SADD "scrapy:tasks_set:weibo" 130
 (integer) 1
