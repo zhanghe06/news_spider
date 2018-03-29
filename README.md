@@ -78,6 +78,12 @@ yum install redis
 yum install nodejs
 ```
 
+CentOS 安装 python3 环境（CentOS 默认是不带 python3 的）
+```bash
+yum install python34
+yum install python34-devel
+```
+
 
 创建项目
 ```bash

@@ -5,6 +5,7 @@
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+from __future__ import unicode_literals
 
 import time
 from scrapy.exceptions import IgnoreRequest
@@ -44,17 +45,18 @@ class AntiSpiderMiddleware(object):
             del_cookies(spider.name, cookies_id)
 
             # spider.log(message='AntiSpider cookies_id: %s; url: %s' % (cookies_id, redirect_urls[0]))
-            raise IgnoreRequest("Spider: %s, AntiSpider cookies_id: %s; url: %s" % (spider.name, cookies_id, redirect_urls[0]))
+            raise IgnoreRequest(
+                'Spider: %s, AntiSpider cookies_id: %s; url: %s' % (spider.name, cookies_id, redirect_urls[0]))
 
     def process_response(self, request, response, spider):
         # 处理微信反爬(反爬机制二, weixin)
         if spider.name in ['weixin']:
-            title = response.xpath('//title/text()').extract_first(default=u'').strip()
-            if title == u'请输入验证码':
+            title = response.xpath('//title/text()').extract_first(default='').strip()
+            if title == '请输入验证码':
                 # 设置反爬处理任务
                 msg = {
                     'url': response.url,
-                    'time': time.strftime("%Y-%m-%d %H:%M:%S")
+                    'time': time.strftime('%Y-%m-%d %H:%M:%S')
                 }
                 set_anti_spider_task(spider.name, msg)
 
