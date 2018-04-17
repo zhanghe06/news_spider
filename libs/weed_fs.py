@@ -9,7 +9,10 @@
 """
 
 import csv
-from urlparse import urlparse
+
+# from urlparse import urlparse                 # PY2
+# from urllib.parse import urlparse             # PY3
+from future.moves.urllib.parse import urlparse
 
 import requests
 

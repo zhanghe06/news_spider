@@ -20,7 +20,10 @@ from future.moves.urllib.parse import urljoin
 import execjs
 from tools.char import un_escape
 from config import current_config
-
+from models.news import FetchResult
+from news.items import FetchResultItem
+from apps.client_db import db_session_mysql
+from maps.platform import WEIXIN, WEIBO
 
 BASE_DIR = current_config.BASE_DIR
 
@@ -72,6 +75,20 @@ def get_img_src_list(html_body, host_name='/', limit=None):
     if limit:
         return img_data_src_list[:limit]
     return img_data_src_list
+
+
+def check_article_title_duplicate(article_title):
+    """
+    检查标题重复
+    :param article_title:
+    :return:
+    """
+    session = db_session_mysql()
+    article_id_count = session.query(FetchResult) \
+        .filter(FetchResult.platform_id == WEIXIN,
+                FetchResult.article_id == get_finger(article_title)) \
+        .count()
+    return article_id_count
 
 
 class ParseJsWc(object):

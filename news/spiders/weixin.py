@@ -14,7 +14,7 @@ from news.items import FetchResultItem
 from tools.cookies import get_cookies
 from tools.scrapy_tasks import pop_task
 from tools.url import get_update_url
-from tools.weixin import parse_weixin_js_body, ParseJsWc
+from tools.weixin import parse_weixin_js_body, ParseJsWc, check_article_title_duplicate
 
 
 class WeixinSpider(scrapy.Spider):
@@ -117,6 +117,9 @@ class WeixinSpider(scrapy.Spider):
         article_list = pj.parse_js_msg_list()
 
         for article_item in article_list:
+            # 标题去重
+            if check_article_title_duplicate(article_item['article_title']):
+                continue
             meta = dict(response.meta, **article_item)
             yield scrapy.Request(url=article_item['article_url'], callback=self.parse_detail, meta=meta)
 
