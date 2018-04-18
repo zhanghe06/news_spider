@@ -8,6 +8,8 @@
 @time: 2018-02-11 00:06
 """
 
+from __future__ import unicode_literals
+
 import hashlib
 import unittest
 
@@ -56,11 +58,11 @@ class MD5Test(unittest.TestCase):
         :return:
         """
         m1 = hashlib.md5()
-        m1.update(self.url_01)
+        m1.update(self.url_01.encode('utf-8'))
         result_01 = m1.hexdigest()
 
         m2 = hashlib.md5()
-        m2.update(self.url_02)
+        m2.update(self.url_02.encode('utf-8'))
         result_02 = m2.hexdigest()
 
         self.assertNotEqual(result_01, result_02)
