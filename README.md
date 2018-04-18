@@ -23,7 +23,11 @@ RK_CONFIG = {
 ```
 
 ```bash
-virtualenv news_spider.env          # 创建虚拟环境
+# python2
+virtualenv news_spider.env              # 创建虚拟环境
+# python3
+virtualenv news_spider.env -p python3   # 创建虚拟环境
+
 source env_develop.sh               # 激活虚拟环境
 pip install -r requirements.txt     # 安装环境依赖
 # 开发环境 模拟单次抓取
@@ -45,28 +49,31 @@ supervisorctl start all             # 开启工作进程
 pip install requests
 pip install scrapy
 pip install sqlalchemy
-pip install MySQL-python
+pip install mysqlclient
 pip install sqlacodegen
 pip install redis
 pip install PyExecJS
 pip install Pillow
 pip install psutil
-pip install apscheduler
-pip install supervisor
-pip install future  # 兼容py2、py3
+pip install schedule
+pip install future          # 兼容py2、py3
+pip install supervisor      # 当前主版本3只支持py2，将来主版本4(未发布)会支持py3
 ```
+因当前`supervisor`不支持`python3`，故在`requirements.txt`中将其去掉
+
+由于任务调度`apscheduler`不支持Py3（其中的依赖`futures`不支持），这里采用`schedule`
 
 Mac 系统环境依赖（mariadb）
 ```bash
 brew unlink mariadb
 brew install mariadb-connector-c
 ln -s /usr/local/opt/mariadb-connector-c/bin/mariadb_config /usr/local/bin/mysql_config
-pip install MySQL-python
+# pip install MySQL-python
+pip install mysqlclient  # 基于 MySQL-python 兼容py2、py3
 rm /usr/local/bin/mysql_config
 brew unlink mariadb-connector-c
 brew link mariadb
 ```
-安装 mysqlclient 同理
 
 CentOS 系统环境依赖
 ```bash
