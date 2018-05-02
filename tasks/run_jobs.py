@@ -11,23 +11,12 @@
 
 import schedule
 import time
-from functools import wraps
+from tools import catch_keyboard_interrupt
 
 from tasks import job_put_tasks
 from tasks.jobs_sogou import job_sogou_cookies
 from tasks.jobs_weixin import job_weixin_cookies
 from apps.client_rk import counter_clear as job_counter_clear
-
-
-def catch_keyboard_interrupt(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except KeyboardInterrupt:
-            print('\n强制退出')
-
-    return wrapper
 
 
 # sogou 反爬任务

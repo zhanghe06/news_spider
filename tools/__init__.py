@@ -8,15 +8,15 @@
 @time: 2018-02-10 17:10
 """
 
-
-def func():
-    pass
+from functools import wraps
 
 
-class Main(object):
-    def __init__(self):
-        pass
+def catch_keyboard_interrupt(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except KeyboardInterrupt:
+            print('\n强制退出')
 
-
-if __name__ == '__main__':
-    pass
+    return wrapper

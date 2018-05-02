@@ -46,7 +46,7 @@ def parse_weixin_js_body(html_body, url=''):
     :param url:
     :return:
     """
-    rule = r'<script type="text/javascript">.*?document.domain="qq.com";(.*?)seajs.use\("sougou/profile.js"\);.*?</script>'
+    rule = r'<script type="text/javascript">.*?(var msgList.*?)seajs.use\("sougou/profile.js"\);.*?</script>'
     js_list = re.compile(rule, re.S).findall(html_body)
     if not js_list:
         print('parse error url: %s' % url)

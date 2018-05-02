@@ -110,7 +110,7 @@ class WeixinSpider(scrapy.Spider):
         :return:
         """
         article_list_body = response.body_as_unicode()
-        js_body = parse_weixin_js_body(article_list_body)
+        js_body = parse_weixin_js_body(article_list_body, response.url)
         if not js_body:
             return
         pj = ParseJsWc(js_body=js_body)
