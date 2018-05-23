@@ -3,6 +3,7 @@
 *.py[cod]
 *.env
 .idea
+.DS_Store
 
 logs/
 !logs/index.html
@@ -10,3 +11,10 @@ logs/
 .coverage
 htmlcov/
 .coveralls.yml
+
+csv/*
+
+
+# toutiao
+news/spiders/toutiao.py
+tools/toutiao.py

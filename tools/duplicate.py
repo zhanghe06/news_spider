@@ -23,7 +23,7 @@ def is_dup_detail(detail_url, spider_name, channel_id=0):
     :param channel_id:
     :return:
     """
-    detail_dup_key = 'dup:%s:%s' % (spider_name, channel_id)
+    detail_dup_key = 'scrapy:dup:%s:%s' % (spider_name, channel_id)
     detail_url_finger = get_request_finger(detail_url)
     return redis_client.sismember(detail_dup_key, detail_url_finger)
 
@@ -36,6 +36,6 @@ def add_dup_detail(detail_url, spider_name, channel_id=0):
     :param channel_id:
     :return:
     """
-    detail_dup_key = 'dup:%s:%s' % (spider_name, channel_id)
+    detail_dup_key = 'scrapy:dup:%s:%s' % (spider_name, channel_id)
     detail_url_finger = get_request_finger(detail_url)
     return redis_client.sadd(detail_dup_key, detail_url_finger)

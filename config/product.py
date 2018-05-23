@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # requests 超时设置
 REQUESTS_TIME_OUT = (30, 30)
 
-HOST_IP = '192.168.4.1'
+HOST_IP = '0.0.0.0'
 
 # 数据库 MySQL
 DB_MYSQL = {
@@ -63,3 +63,6 @@ PRIORITY_CONFIG = {
     'next': 500,
     'detail': 800,
 }
+
+# 启动时间（启动时间之前的内容不抓取, 适用于新闻）
+START_TIME = '2018-01-01 00:00:00'

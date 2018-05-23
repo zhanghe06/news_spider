@@ -31,7 +31,7 @@ def set_anti_spider_task(spider_name, msg):
     :param msg:
     :return:
     """
-    key = 'anti_spider_task_weixin:%s' % spider_name
+    key = 'scrapy:anti_spider_task_weixin:%s' % spider_name
     q_task = RedisQueue(key, redis_client=redis_client)
     q_msg = json.dumps(msg) if isinstance(msg, dict) else msg
     # 因为微信反爬策略是通过IP限制, 这里仅仅处理一个任务
@@ -41,7 +41,7 @@ def set_anti_spider_task(spider_name, msg):
 
 def _get_anti_spider_task(spider_name):
     """获取任务队列"""
-    key = 'anti_spider_task_weixin:%s' % spider_name
+    key = 'scrapy:anti_spider_task_weixin:%s' % spider_name
     q_task = RedisQueue(key, redis_client=redis_client)
     result = q_task.get(timeout=60)
     return json.loads(result) if result else {}
@@ -49,7 +49,7 @@ def _get_anti_spider_task(spider_name):
 
 def _set_anti_spider_result(spider_name, msg):
     """设置结果队列"""
-    key = 'anti_spider_result_weixin:%s' % spider_name
+    key = 'scrapy:anti_spider_result_weixin:%s' % spider_name
     q_result = RedisQueue(key, redis_client=redis_client)
     q_msg = json.dumps(msg) if isinstance(msg, dict) else msg
     q_result.put(q_msg)
@@ -57,7 +57,7 @@ def _set_anti_spider_result(spider_name, msg):
 
 def _get_anti_spider_result(spider_name):
     """获取任务队列"""
-    key = 'anti_spider_result_weixin:%s' % spider_name
+    key = 'scrapy:anti_spider_result_weixin:%s' % spider_name
     q_result = RedisQueue(key, redis_client=redis_client)
     result = q_result.get(timeout=60)
     return json.loads(result) if result else {}
@@ -69,7 +69,7 @@ def sub_anti_spider(spider_name):
     :param spider_name:
     :return:
     """
-    q = RedisPubSub('anti_spider', redis_client=redis_client)
+    q = RedisPubSub('scrapy:anti_spider', redis_client=redis_client)
     r = q.sub_not_loop(spider_name)
     return json.loads(r) if r else {}
 
@@ -80,7 +80,7 @@ def _pub_anti_spider(spider_name, msg):
     :param spider_name:
     :return:
     """
-    q = RedisPubSub('anti_spider', redis_client=redis_client)
+    q = RedisPubSub('scrapy:anti_spider', redis_client=redis_client)
     msg = json.dumps(msg) if isinstance(msg, dict) else msg
     q.pub(spider_name, msg)
 

@@ -15,15 +15,15 @@ from maps.platform import platform_name_map
 from models.news import FetchTask
 from news.items import FetchResultItem
 from tools.scrapy_tasks import pop_task
-from tools.toutiao import get_as_cp, ParseJsTt, parse_toutiao_js_body
+from tools.toutiao_m import get_as_cp, ParseJsTt, parse_toutiao_js_body
 from tools.url import get_update_url
 
 
-class ToutiaoSpider(scrapy.Spider):
+class ToutiaoMSpider(scrapy.Spider):
     """
     头条蜘蛛
     """
-    name = 'toutiao'
+    name = 'toutiao_m'
     allowed_domains = ['toutiao.com', 'snssdk.com']
 
     custom_settings = dict(

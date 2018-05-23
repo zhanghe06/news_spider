@@ -4,7 +4,7 @@
 """
 @author: zhanghe
 @software: PyCharm
-@file: toutiao.py
+@file: toutiao_m.py
 @time: 2018-02-28 14:14
 """
 
@@ -54,6 +54,7 @@ def parse_toutiao_js_body(html_body, url=''):
     js_list = re.compile(rule, re.S).findall(html_body)
     if not js_list:
         print('parse error url: %s' % url)
+        print(html_body)
     return ''.join(js_list)
 
 

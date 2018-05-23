@@ -98,15 +98,15 @@ class ImgRemoteToLocalFSPipeline(object):
         spider_name = spider.name
         # 读取抓取内容
         if isinstance(item, FetchResultItem):
-            if spider_name == 'weixin':
+            if spider_name in ['weixin']:
                 html_body = item['article_content']
                 base = item['article_url']
                 item['article_content'] = add_src(html_body, base)
-            if spider_name == 'weibo':
+            if spider_name in ['weibo']:
                 html_body = item['article_content']
                 base = item['article_url']
                 item['article_content'] = replace_src(html_body, base)
-            if spider_name == 'toutiao':
+            if spider_name in ['toutiao', 'toutiao_m']:
                 html_body = item['article_content']
                 base = item['article_url']
                 item['article_content'] = replace_src(html_body, base)

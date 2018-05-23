@@ -50,7 +50,7 @@ pip install requests
 pip install scrapy
 pip install sqlalchemy
 pip install mysqlclient
-pip install sqlacodegen
+pip install sqlacodegen==1.1.6  # 注意: 最新版 sqlacodegen==2.0 有bug
 pip install redis
 pip install PyExecJS
 pip install Pillow
@@ -145,6 +145,13 @@ http://wiki.ruokuai.com/
 http://www.ruokuai.com/home/pricetype
 
 
+### 索引说明
+
+联合索引, 注意顺序, 同时注意查询条件字段类型需要与索引字段类型一致
+
+实测, 数据量8万记录以上, 如果没有命中索引, 查询会很痛苦
+
+
 ### 项目说明
 
 亮点:
@@ -162,3 +169,14 @@ MediumText | 2的24次方–1 | 16,777,215 | 16MB
 LongText | 2的32次方–1 | 4,294,967,295 | 4GB
 
 由于微信公众号文章标签过多, 长度超过`Text`的最大值, 故建议采用`MediumText`
+
+
+### 特别说明
+
+头条请求签名
+- M端需要2个参数: as、cp
+- PC端需要3个参数: as、cp、_signature
+
+M端2个参数获取方法已公开, 参考蜘蛛 toutiao_m
+
+PC端3个参数获取方法已破解, 由于公开之后会引起头条反爬机制更新, 故没有公开, 如有需要, 敬请私聊, 仅供学习, 谢绝商用

@@ -4,20 +4,20 @@
 """
 @author: zhanghe
 @software: PyCharm
-@file: run_job_put_tasks_toutiao.py
-@time: 2018-05-02 10:23
+@file: run_job_optical_modem_china_net.py
+@time: 2018-05-28 19:35
 """
 
 import time
 
 import schedule
 
-from tasks.job_put_tasks import job_put_tasks
+from tasks.job_reboot_net_china_net import job_reboot_net_china_net
 from tools import catch_keyboard_interrupt
 
 
-# 分布式任务调度 - 头条
-schedule.every(1).minutes.do(job_put_tasks, spider_name='toutiao')
+# 电信光猫重启
+schedule.every(15).minutes.do(job_reboot_net_china_net)
 
 
 @catch_keyboard_interrupt

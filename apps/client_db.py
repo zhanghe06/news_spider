@@ -65,3 +65,15 @@ def get_group(model_class, field, min_count=0, *args, **kwargs):
         return result
     finally:
         session.close()
+
+
+def add_item(model_class, data):
+    session = db_session_mysql()
+    try:
+        ret = model_class(**data)
+        session.add(ret)
+        # 如需返回id, 需要手动flush
+        session.flush()
+        return ret.id
+    finally:
+        session.close()

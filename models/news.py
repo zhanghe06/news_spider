@@ -27,7 +27,8 @@ class Channel(Base):
 class FetchResult(Base):
     __tablename__ = 'fetch_result'
     __table_args__ = (
-        Index('idx_platform_article_id', 'platform_id', 'article_id', unique=True),
+        Index('idx_platform_author_id', 'platform_id', 'article_author_id'),
+        Index('idx_platform_article_id', 'platform_id', 'article_id', unique=True)
     )
 
     id = Column(Integer, primary_key=True)
@@ -44,9 +45,9 @@ class FetchResult(Base):
     article_tags = Column(String(100), server_default=text("''"))
     article_abstract = Column(String(500), server_default=text("''"))
     article_content = Column(String)
-    article_pub_time = Column(DateTime)
-    create_time = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    update_time = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+    article_pub_time = Column(DateTime, index=True, server_default=text("'1000-01-01 00:00:00'"))
+    create_time = Column(DateTime, nullable=False, index=True, server_default=text("CURRENT_TIMESTAMP"))
+    update_time = Column(DateTime, nullable=False, index=True, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
 
 class FetchTask(Base):

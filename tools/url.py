@@ -52,8 +52,19 @@ def get_request_finger(url):
     return request.request_fingerprint(req)
 
 
+def allow_url(url, allow_domains):
+    url_parse = urlparse(url)
+    result = False
+    for domain in allow_domains:
+        if url_parse.netloc.endswith(domain):
+            result = True
+    return result
+
+
 if __name__ == '__main__':
     print(get_update_url('http://www.abc.com/def/', {'b': 2}))
     print(get_update_url('http://www.abc.com/def/?a=1', {'b': 2}))
     print(get_update_url('http://www.abc.com/def/?a=1', {'a': 2}))
     print(get_url_query_param('http://www.abc.com/def/?a=1&b=2', 'a'))
+    print(allow_url('http://www.abc.com', ['abc.com']))
+    print(allow_url('http://www.abc.com', ['b.com']))
