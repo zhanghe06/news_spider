@@ -12,6 +12,7 @@ from maps.platform import platform_name_map
 from models.news import FetchTask
 from news.items import FetchResultItem
 from tools.cookies import get_cookies
+from tools.date_time import time_local_to_utc
 from tools.scrapy_tasks import pop_task
 from tools.url import get_update_url
 from tools.weixin import parse_weixin_js_body, ParseJsWc, check_article_title_duplicate
@@ -147,7 +148,7 @@ class WeixinSpider(scrapy.Spider):
         fetch_result_item['article_title'] = response.meta['article_title']
         fetch_result_item['article_author_id'] = response.meta['follow_id']
         fetch_result_item['article_author_name'] = response.meta['follow_name']
-        fetch_result_item['article_pub_time'] = response.meta['article_pub_time']
+        fetch_result_item['article_pub_time'] = time_local_to_utc(response.meta['article_pub_time']).strftime('%Y-%m-%d %H:%M:%S')
         fetch_result_item['article_url'] = response.meta['article_url']
         fetch_result_item['article_tags'] = ''
         fetch_result_item['article_abstract'] = response.meta['article_abstract']

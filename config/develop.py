@@ -8,6 +8,8 @@
 @time: 2018-02-10 15:07
 """
 
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import os
 

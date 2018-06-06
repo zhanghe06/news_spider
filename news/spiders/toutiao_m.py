@@ -14,6 +14,7 @@ from maps.channel import channel_name_map
 from maps.platform import platform_name_map
 from models.news import FetchTask
 from news.items import FetchResultItem
+from tools.date_time import time_local_to_utc
 from tools.scrapy_tasks import pop_task
 from tools.toutiao_m import get_as_cp, ParseJsTt, parse_toutiao_js_body
 from tools.url import get_update_url
@@ -191,7 +192,7 @@ class ToutiaoMSpider(scrapy.Spider):
         fetch_result_item['article_title'] = article_title
         fetch_result_item['article_author_id'] = response.meta['follow_id']
         fetch_result_item['article_author_name'] = response.meta['follow_name']
-        fetch_result_item['article_pub_time'] = article_pub_time
+        fetch_result_item['article_pub_time'] = time_local_to_utc(article_pub_time).strftime('%Y-%m-%d %H:%M:%S')
         fetch_result_item['article_url'] = response.url or response.meta['detail_url']
         fetch_result_item['article_tags'] = article_tags
         fetch_result_item['article_abstract'] = article_abstract

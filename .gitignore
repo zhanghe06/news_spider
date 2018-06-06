@@ -18,3 +18,11 @@ csv/*
 # toutiao
 news/spiders/toutiao.py
 tools/toutiao.py
+
+# middlewares
+news/middlewares/httpproxy_vps.py
+
+# config
+config/
+!config/__init__.py
+!config/default.py

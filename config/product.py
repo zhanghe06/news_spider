@@ -8,6 +8,8 @@
 @time: 2018-02-10 15:09
 """
 
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import os
 
@@ -58,6 +60,7 @@ COOKIES_QUEUE_COUNT = 5
 WEED_FS_URL = 'http://%s:9333' % HOST_IP
 
 # 优先级配置（深度优先）
+DEPTH_PRIORITY = 1
 PRIORITY_CONFIG = {
     'list': 600,
     'next': 500,

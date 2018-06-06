@@ -18,6 +18,7 @@ from maps.channel import channel_name_map
 from maps.platform import platform_name_map
 from models.news import FetchTask
 from news.items import FetchResultItem
+from tools.date_time import time_local_to_utc
 from tools.scrapy_tasks import pop_task
 from tools.url import get_update_url, get_request_finger
 from tools.weibo import get_su, get_login_data
@@ -401,7 +402,7 @@ class WeiboSpider(scrapy.Spider):
         fetch_result_item['article_title'] = article_title
         fetch_result_item['article_author_id'] = response.meta['follow_id']
         fetch_result_item['article_author_name'] = response.meta['follow_name']
-        fetch_result_item['article_pub_time'] = article_pub_time
+        fetch_result_item['article_pub_time'] = time_local_to_utc(article_pub_time).strftime('%Y-%m-%d %H:%M:%S')
         fetch_result_item['article_url'] = response.url
         fetch_result_item['article_tags'] = ''
         fetch_result_item['article_abstract'] = response.meta['article_abstract']
