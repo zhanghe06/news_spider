@@ -11,7 +11,7 @@ install:
   - pip install pyyaml
 # command to run tests
 script:
-  - export PATH=${PWD}:${PATH}
+  - export PYTHONPATH=${PWD}
   - coverage run -a tests/test_date_time.py
   - coverage run -a tests/test_finger.py
   - coverage report
