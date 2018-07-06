@@ -13,7 +13,8 @@ install:
 script:
   - cd tests
   # Copy the coveragerc down so coverage.py can find it.
-  - coverage run --source='.' test_finger.py
+  - coverage run -a --source='.' test_date_time.py
+  - coverage run -a --source='.' test_finger.py
   - coverage report
 after_success:
   - coveralls
