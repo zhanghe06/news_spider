@@ -1,4 +1,6 @@
 [run]
+include =
+    tests/*
 omit =
     __init__.py
 
