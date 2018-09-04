@@ -29,7 +29,7 @@ virtualenv news_spider.env              # 创建虚拟环境
 virtualenv news_spider.env -p python3   # 创建虚拟环境
 
 source env_develop.sh               # 激活虚拟环境
-pip install -r requirements.txt     # 安装环境依赖
+pip install -r requirements-py2.txt # 安装环境依赖
 # 开发环境 模拟单次抓取
 python tasks/job_put_tasks.py wx    # 初次创建任务
 python tasks/jobs_sogou.py          # 初次应对反爬
@@ -64,6 +64,9 @@ pip install supervisor      # 当前主版本3只支持py2，将来主版本4(�
 由于任务调度`apscheduler`不支持Py3（其中的依赖`futures`不支持），这里采用`schedule`
 
 `scrapy`的依赖`cryptography`在`2.2.2`版本中有[安全性问题](https://nvd.nist.gov/vuln/detail/CVE-2018-10903), 强烈建议更新至`2.3`及以上版本, 可以通过更新`scrapy`的方式升级
+
+`scrapy`的依赖`parsel`使用了`functools`的`lru_cache`方法（ python2 是`functools32`的`lru_cache`方法；`functools32`是`functools`的反向移植）
+
 
 Mac 系统环境依赖（mariadb）
 ```bash

@@ -6,7 +6,8 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-  - pip install -r requirements.txt
+  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then pip install -r requirements-py2.txt; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then pip install -r requirements-py3.txt; fi
   - pip install coveralls
   - pip install pyyaml
 # command to run tests
