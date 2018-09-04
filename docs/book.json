@@ -1,0 +1,8 @@
+{
+    "language": "zh-hans",
+    "author": "碎ping子",
+    "plugins": [
+        "todo",
+        "mermaid-full@>=0.5.1"
+    ]
+}

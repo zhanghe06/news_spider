@@ -71,4 +71,4 @@ class RClient(object):
 if __name__ == '__main__':
     rc = RClient('username', 'password', 'soft_id', 'soft_key')
     im = open('a.jpg', 'rb').read()
-    print rc.rk_create(im, 3040)
+    print(rc.rk_create(im, 3040))

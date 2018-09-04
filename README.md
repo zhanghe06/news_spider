@@ -63,6 +63,8 @@ pip install supervisor      # 当前主版本3只支持py2，将来主版本4(�
 
 由于任务调度`apscheduler`不支持Py3（其中的依赖`futures`不支持），这里采用`schedule`
 
+`scrapy`的依赖`cryptography`在`2.2.2`版本中有[安全性问题](https://nvd.nist.gov/vuln/detail/CVE-2018-10903), 强烈建议更新至`2.3`及以上版本, 可以通过更新`scrapy`的方式升级
+
 Mac 系统环境依赖（mariadb）
 ```bash
 brew unlink mariadb

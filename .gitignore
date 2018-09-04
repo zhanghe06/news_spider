@@ -29,3 +29,9 @@ config/*
 
 env_*.sh
 !env_default.sh
+
+
+# gitbook
+docs/_book/*
+docs/node_modules
+docs/package-lock.json
