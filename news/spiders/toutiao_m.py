@@ -138,7 +138,7 @@ class ToutiaoMSpider(scrapy.Spider):
         body = response.body_as_unicode()
         jsonp_text = 'jsonp%d' % response.meta.get('jsonp_index', 0)
         result = json.loads(body.lstrip('%s(' % jsonp_text).rstrip(')'))
-        # 翻页
+        # 翻页 TODO FIX
         has_more = result.get('has_more')
         if has_more:
             max_behot_time = result['next']['max_behot_time']

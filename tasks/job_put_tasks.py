@@ -26,6 +26,7 @@ def job_put_tasks(spider_name):
         'weixin': WEIXIN,
         'weibo': WEIBO,
         'toutiao': TOUTIAO,
+        'toutiao_m': TOUTIAO,
     }
 
     # TODO 稳定运行之后需要去掉
@@ -51,7 +52,8 @@ def usage():
         'Example:',
         '\tpython job_put_tasks.py wx  # 微信',
         '\tpython job_put_tasks.py wb  # 微博',
-        '\tpython job_put_tasks.py tt  # 头条',
+        '\tpython job_put_tasks.py tm  # 头条(M)',
+        '\tpython job_put_tasks.py tt  # 头条(PC)',
     ]
     print('\n'.join(contents))
 
@@ -65,6 +67,7 @@ def run():
         'wx': 'weixin',
         'wb': 'weibo',
         'tt': 'toutiao',
+        'tm': 'toutiao_m',
     }
     try:
         if len(sys.argv) > 1:

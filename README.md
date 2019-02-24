@@ -96,6 +96,14 @@ yum install python34
 yum install python34-devel
 ```
 
+CentOS 安装 pip & virtualenv & git & vim
+```bash
+yum install python-pip
+pip install --upgrade pip
+pip install virtualenv
+yum install git
+yum install vim
+```
 
 创建项目
 ```bash

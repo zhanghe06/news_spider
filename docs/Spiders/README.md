@@ -25,7 +25,7 @@ pip install requirements.txt
 Example:
 	python job_put_tasks.py wx  # 微信
 	python job_put_tasks.py wb  # 微博
-	python job_put_tasks.py tt  # 头条
+	python job_put_tasks.py tm  # 头条(M)
 ```
 参考以上提示, 对应蜘蛛执行各自的脚本完成任务创建
 
