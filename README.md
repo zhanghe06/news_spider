@@ -10,15 +10,23 @@
 - Redis
 - NodeJS
 
-本项目依赖第三方验证码识别服务, 注册地址: http://www.ruokuai.com/
+本项目依赖第三方验证码识别服务
 
-更新配置 config/develop.py 用户名和密码
+更新配置 config/default.py 用户名和密码
 ```
 RK_CONFIG = {
     'username': '******',
     'password': '******',
     'soft_id': '93676',
     'soft_key': '5d0e00b196c244cb9d8413809c62f9d5',
+}
+
+# 斐斐打码
+FF_CONFIG = {
+    'pd_id': '******',
+    'pd_key': '******',
+    'app_id': '312451',
+    'app_key': '5YuN+6isLserKBZti4hoaI6UR2N5UT2j',
 }
 ```
 
@@ -28,7 +36,7 @@ virtualenv news_spider.env              # 创建虚拟环境
 # python3
 virtualenv news_spider.env -p python3   # 创建虚拟环境
 
-source env_develop.sh               # 激活虚拟环境
+source env_default.sh               # 激活虚拟环境
 pip install -r requirements-py2.txt # 安装环境依赖
 # 开发环境 模拟单次抓取
 python tasks/job_put_tasks.py wx    # 初次创建任务
@@ -150,12 +158,16 @@ scrapy crawl weibo
 
 ### 验证码识别
 
-http://www.ruokuai.com/
+~~http://www.ruokuai.com/~~
 
-http://wiki.ruokuai.com/
+~~http://wiki.ruokuai.com/~~
 
-价格类型:
-http://www.ruokuai.com/home/pricetype
+~~价格类型:~~
+~~http://www.ruokuai.com/home/pricetype~~
+
+热心网友反映`若快`已经关闭, 接下来会支持`斐斐打码`, 敬请期待
+
+斐斐打码开发文档 [http://docs.fateadm.com](http://docs.fateadm.com)
 
 
 ### 索引说明
@@ -192,7 +204,9 @@ LongText | 2的32次方–1 | 4,294,967,295 | 4GB
 
 M端2个参数获取方法已公开, 参考蜘蛛 toutiao_m
 
-PC端3个参数获取方法已破解, 由于公开之后会引起头条反爬机制更新, 故没有公开, 如有需要, 敬请私聊, 仅供学习, 谢绝商用
+~~PC端3个参数获取方法已破解, 由于公开之后会引起头条反爬机制更新, 故没有公开, 如有需要, 敬请私聊, 仅供学习, 谢绝商用~~
+
+因M端已满足数据获取要求, 不再开源PC端签名破解
 
 
 ### TODO

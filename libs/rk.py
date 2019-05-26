@@ -13,7 +13,7 @@ from hashlib import md5
 import requests
 
 
-class RClient(object):
+class RKClient(object):
     def __init__(self, username, password, soft_id, soft_key):
         self.username = username
         self.password = md5(password).hexdigest()
@@ -69,6 +69,6 @@ class RClient(object):
 
 
 if __name__ == '__main__':
-    rc = RClient('username', 'password', 'soft_id', 'soft_key')
+    rc = RKClient('username', 'password', 'soft_id', 'soft_key')
     im = open('a.jpg', 'rb').read()
     print(rc.rk_create(im, 3040))

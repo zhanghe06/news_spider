@@ -9,7 +9,7 @@
 """
 
 
-from libs.rk import RClient
+from libs.rk import RKClient
 from libs.counter import CounterClient
 from apps.client_db import redis_client
 from tools.cookies import len_cookies
@@ -21,7 +21,7 @@ BASE_DIR = current_config.BASE_DIR
 RK_LIMIT_COUNT_DAILY = current_config.RK_LIMIT_COUNT_DAILY
 COOKIES_QUEUE_COUNT = current_config.COOKIES_QUEUE_COUNT
 
-rc_client = RClient(**RK_CONFIG)
+rc_client = RKClient(**RK_CONFIG)
 
 rk_counter_client = CounterClient(redis_client, 'rk')
 

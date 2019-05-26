@@ -51,6 +51,14 @@ RK_CONFIG = {
     'soft_key': '5d0e00b196c244cb9d8413809c62f9d5',
 }
 
+# 斐斐打码
+FF_CONFIG = {
+    'pd_id': '******',
+    'pd_key': '******',
+    'app_id': '312451',
+    'app_key': '5YuN+6isLserKBZti4hoaI6UR2N5UT2j',
+}
+
 # 熔断机制 每天请求限制（200元==500000快豆）
 RK_LIMIT_COUNT_DAILY = 925
 

@@ -23,12 +23,12 @@ tools/toutiao.py
 news/middlewares/httpproxy_vps.py
 
 # config
-config/*
-!config/__init__.py
-!config/default.py
-
-env_*.sh
-!env_default.sh
+#config/*
+#!config/__init__.py
+#!config/default.py
+#
+#env_*.sh
+#!env_default.sh
 
 
 # gitbook
